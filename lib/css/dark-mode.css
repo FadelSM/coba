@@ -1,0 +1,59 @@
+        /* Estilo para el modo oscuro */
+        body.dark-mode {
+            background-color: #121212;
+            color: #f5f5f5;
+        }
+
+        body.dark-mode .section {
+            background-color: #121212;
+        }
+
+        body.dark-mode .navbar {
+            background-color: #121212;
+        }
+
+        body.dark-mode .close-menu {
+            color: #ffffff;
+        }
+
+        body.dark-mode a {
+            color: #ffffff;
+        }
+
+        body.dark-mode a:hover {
+            color: #121212;
+        }
+
+        body.dark-mode .terms-content p {
+            color: #f5f5f5;
+        }
+
+        body.dark-mode .terms-content a:hover {
+            color: #f5f5f5;
+        }
+
+        body.dark-mode .top-bar {
+            background-color: #121212;
+            color: #f5f5f5;
+        }
+
+
+        body.dark-mode .menu-icon {
+            color: #f0f0f0;
+        }
+
+        body.dark-mode .save-settings {
+            color: #fff;
+        }
+
+        body.dark-mode .settings-container p {
+            color: #fff;
+        }
+
+        body.dark-mode .settings-container  {
+            color: #fff;
+        }
+
+        body.dark-mode .settings-container  {
+            color: #fff;
+        }
