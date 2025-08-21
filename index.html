@@ -1,0 +1,569 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Izumi Plus</title>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Arial', sans-serif;
+            background-color: #282c3c;
+            color: #acb4cc;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            min-height: 100vh;
+            padding: 20px;
+        }
+
+        .header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            width: 100%;
+            max-width: 600px;
+            background: #2e3349;
+            border-radius: 10px;
+            padding: 15px;
+            box-shadow: 0px 3px 10px rgba(0, 0, 0, 0.2);
+        }
+
+        .menu-container {
+            display: flex;
+            align-items: center;
+        }
+
+        .menu-icon,
+        .dark-mode-icon {
+            font-size: 24px;
+            color: #acb4cc;
+            cursor: pointer;
+            margin-right: 15px;
+        }
+
+        .profile {
+            display: flex;
+            align-items: center;
+        }
+
+        .profile img {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+        }
+
+        .commands-container {
+            width: 100%;
+            max-width: 600px;
+            background: #2e3349;
+            border-radius: 10px;
+            padding: 20px;
+            margin-top: 20px;
+            text-align: center;
+            box-shadow: 0px 3px 10px rgba(0, 0, 0, 0.2);
+        }
+
+        .commands-container h2 {
+            font-size: 1.3rem;
+            margin-bottom: 15px;
+            color: white;
+        }
+
+        .dropdown {
+            width: 100%;
+            position: relative;
+            text-align: center;
+        }
+
+        .toggle-bar {
+            background-color: #3a3f5c;
+            color: #acb4cc;
+            padding: 12px;
+            border-radius: 8px;
+            cursor: pointer;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-size: 1rem;
+        }
+
+        .toggle-bar i {
+            transition: transform 0.3s;
+        }
+
+        .dropdown-content {
+            display: none;
+            width: 100%;
+            background-color: #242c3c;
+            padding: 10px;
+            border-radius: 8px;
+            margin-top: 5px;
+            box-shadow: 0px 3px 10px rgba(0, 0, 0, 0.2);
+        }
+
+        .dropdown-content button {
+            width: 100%;
+            padding: 10px;
+            border: none;
+            background-color: #3a3f5c;
+            color: #acb4cc;
+            font-size: 1rem;
+            cursor: pointer;
+            border-radius: 5px;
+            margin-bottom: 5px;
+        }
+
+        .dropdown-content button:hover {
+            background-color: #645ccc;
+        }
+
+        .sidebar {
+            position: fixed;
+            top: 0;
+            left: -250px;
+            width: 250px;
+            height: 100%;
+            background: #30344c;
+            box-shadow: 2px 0 10px rgba(0, 0, 0, 0.1);
+            transition: all 0.3s;
+            z-index: 1000;
+        }
+
+        .sidebar.open {
+            left: 0;
+        }
+
+        .sidebar-header {
+            padding: 20px;
+            background: #30344c;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .sidebar-header img {
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+        }
+
+        .sidebar-header h3 {
+            font-size: 18px;
+            color: #acb4cc;
+        }
+
+        .close-sidebar {
+            cursor: pointer;
+            font-size: 18px;
+            color: #acb4cc;
+        }
+
+        .sidebar ul {
+            list-style: none;
+            padding: 20px;
+        }
+
+        .sidebar ul li {
+            margin-bottom: 15px;
+        }
+
+        .sidebar ul li a {
+            color: white;
+            text-decoration: none;
+            font-size: 16px;
+            display: flex;
+            align-items: center;
+            padding: 10px;
+            border-radius: 10px;
+            transition: background-color 0.3s;
+        }
+
+        .sidebar ul li a:hover {
+            background: #645ccc;
+        }
+
+        .category-container {
+            display: none;
+            margin-top: 10px;
+        }
+
+        .card {
+            background: #3a3f5c;
+            padding: 20px;
+            border-radius: 10px;
+            margin: 10px 0;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            cursor: pointer;
+        }
+
+        .card i {
+            font-size: 24px;
+        }
+
+        .card-detail {
+            display: none;
+            background: #242c3c;
+            padding: 15px;
+            border-radius: 8px;
+            margin-top: 5px;
+            color: #fff;
+        }
+
+        /* Estilo del cuadro adicional */
+        .additional-info {
+            background-color: #3a3f5c;
+            padding: 10px;
+            border-radius: 10px;
+            margin-top: 15px;
+            color: #acb4cc;
+            text-align: center;
+        }
+
+        footer {
+            text-align: center;
+            font-size: 0.8rem;
+            background: #242c3c;
+            color: #acb4cc;
+            padding: 10px;
+            margin-top: auto;
+            width: 100%;
+            max-width: 600px;
+            border-radius: 10px;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="header">
+        <div class="menu-container">
+            <i class="fas fa-bars menu-icon" id="menuToggle"></i>
+        </div>
+        <div class="profile">
+            <img src="https://i.ibb.co/rMx6Gwc/file.jpg" alt="Perfil" />
+        </div>
+    </div>
+
+    <div class="sidebar" id="sidebar">
+        <div class="sidebar-header">
+            <img src="https://i.ibb.co/rMx6Gwc/file.jpg" alt="Perfil">
+            <h3>Izumi Plus</h3>
+            <i class="fas fa-times close-sidebar" id="closeSidebar"></i>
+        </div>
+        <ul>
+            <li><a href="#"><i class="fas fa-home"></i> Inicio</a></li>
+            <li><a href="#"><i class="fas fa-book"></i> Comandos</a></li>
+            <li><a href="#"><i class="fas fa-user"></i> Perfil</a></li>
+            <li><a href="#"><i class="fas fa-cog"></i> Configuración</a></li>
+        </ul>
+    </div>
+
+    <div class="commands-container">
+        <h2>Comandos de Genesis</h2>
+        <div class="dropdown">
+            <div class="toggle-bar" id="toggleDropdown">
+                Selecciona una categoría
+                <i class="fas fa-chevron-down"></i>
+            </div>
+            <div class="dropdown-content" id="dropdownContent">
+                <button onclick="showCategory('anime')">Anime</button>
+                <button onclick="showCategory('descargas')">Descargas</button>
+                <button onclick="showCategory('games')">Juegos</button>
+                <button onclick="showCategory('others')">Otros</button>
+            </div>
+        </div>
+    </div>
+
+    <div class="category-container" id="anime">
+        <div class="card" onclick="toggleDetails('animeListDetail')">
+            <span><i class="fas fa-film"></i> Anime List</span>
+            <i class="fas fa-chevron-right"></i>
+        </div>
+        <div id="animeListDetail" class="card-detail">
+            <p><strong>Nombre:</strong> Anime List</p>
+            <p><strong>Requerido:</strong> Nombre del anime</p>
+            <p><strong>Uso:</strong> Muestra una lista de animes populares y sus detalles.</p>
+            <!-- Cuadro adicional -->
+            <div class="additional-info">
+                <p>Anime List - <strong>nombre del anime</strong></p>
+            </div>
+        </div>
+
+        <div class="card" onclick="toggleDetails('animeQuotesDetail')">
+            <span><i class="fas fa-quote-left"></i> Anime Quotes</span>
+            <i class="fas fa-chevron-right"></i>
+        </div>
+        <div id="animeQuotesDetail" class="card-detail">
+            <p><strong>Nombre:</strong> Anime Quotes</p>
+            <p><strong>Uso:</strong> Muestra frases icónicas de personajes de anime.</p>
+            <!-- Cuadro adicional -->
+            <div class="additional-info">
+                <p>Anime Quotes - <strong>frase del anime</strong></p>
+            </div>
+        </div>
+    </div>
+
+    <div class="category-container" id="descargas">
+        <div class="card" onclick="toggleDetails('apkDroidDetail')">
+            <span><i class="fas fa-download"></i> Apk Droid</span>
+            <i class="fas fa-chevron-right"></i>
+        </div>
+        <div id="apkDroidDetail" class="card-detail">
+            <p><strong>Titulo:</strong> Apk Droid</p>
+            <p><strong>Descripción:</strong> Permite descargar aplicaciones mediante enlace de Apkdroid</p>
+            <p><strong>Ejemplo:</strong> </p>
+            <!-- Cuadro adicional -->
+            <div class="additional-info">
+                <p>#apkdroid <strong>enlace</strong></p>
+            </div>
+        </div>
+
+        <div class="card" onclick="toggleDetails('capCutDetail')">
+            <span><i class="fas fa-download"></i> Cap Cut</span>
+            <i class="fas fa-chevron-right"></i>
+        </div>
+        <div id="capCutDetail" class="card-detail">
+            <p><strong>Título:</strong> cap cut</p>
+            <p><strong>Descripción:</strong> Descarga videos mediante enlace de capcut.</p>
+            <p><strong>Ejemplo:</strong> </p>
+            <!-- Cuadro adicional -->
+            <div class="additional-info">
+                <p>#capcut <strong>enlace</strong></p>
+            </div>
+        </div>
+        <div class="card" onclick="toggleDetails('cocoFunDetail')">
+            <span><i class="fas fa-download"></i> Coco Fun</span>
+            <i class="fas fa-chevron-right"></i>
+        </div>
+        <div id="cocoFunDetail" class="card-detail">
+            <p><strong>Título:</strong> Cap Cut</p>
+            <p><strong>Descripción:</strong> Permite descargar videos mediante enlace desde Cocofun.</p>
+            <p><strong>Ejemplo:</strong> </p>
+            <!-- Cuadro adicional -->
+            <div class="additional-info">
+                <p>#cocofundl <strong>enlace</strong></p>
+            </div>
+        </div>
+
+        <div class="card" onclick="toggleDetails('komikuDetail')">
+            <span><i class="fas fa-download"></i> Komiku</span>
+            <i class="fas fa-chevron-right"></i>
+        </div>
+        <div id="komikuDetail" class="card-detail">
+            <p><strong>Título:</strong> Komiku</p>
+            <p><strong>Descripción:</strong> Permite descargar archivos mediante enlace desde Komiku.</p>
+            <p><strong>Ejemplo:</strong> </p>
+            <!-- Cuadro adicional -->
+            <div class="additional-info">
+                <p>#komikudl <strong>enlace</strong></p>
+            </div>
+        </div>
+
+        <div class="card" onclick="toggleDetails('facebookDetail')">
+            <span><i class="fas fa-download"></i> Facebook</span>
+            <i class="fas fa-chevron-right"></i>
+        </div>
+        <div id="facebookDetail" class="card-detail">
+            <p><strong>Titulo:</strong> Facebook</p>
+            <p><strong>Descripción:</strong> Permite descargar videos/rels mediante enlace de Facebook</p>
+            <p><strong>Ejemplo:</strong> </p>
+            <!-- Cuadro adicional -->
+            <div class="additional-info">
+                <p>#fb <strong>enlace</strong></p>
+            </div>
+        </div>
+
+        <div class="card" onclick="toggleDetails('gitHubDetail')">
+            <span><i class="fas fa-download"></i> Git Hub</span>
+            <i class="fas fa-chevron-right"></i>
+        </div>
+        <div id="gitHubDetail" class="card-detail">
+            <p><strong>Título:</strong> git hub</p>
+            <p><strong>Descripción:</strong> Descarga archivos zip mediante enlace de github.</p>
+            <p><strong>Ejemplo:</strong> </p>
+            <!-- Cuadro adicional -->
+            <div class="additional-info">
+                <p>#gitclone <strong>enlace</strong></p>
+            </div>
+        </div>
+        <div class="card" onclick="toggleDetails('imageDetail')">
+            <span><i class="fas fa-download"></i> Imagen</span>
+            <i class="fas fa-chevron-right"></i>
+        </div>
+        <div id="imageDetail" class="card-detail">
+            <p><strong>Título:</strong> Imagen</p>
+            <p><strong>Descripción:</strong> Permite hacer búsqueda de imágenes en Google y las envía</p>
+            <p><strong>Ejemplo:</strong> </p>
+            <!-- Cuadro adicional -->
+            <div class="additional-info">
+                <p>#image <strong>texto</strong></p>
+            </div>
+        </div>
+
+        <div class="card" onclick="toggleDetails('instagramDetail')">
+            <span><i class="fas fa-download"></i> Instagram</span>
+            <i class="fas fa-chevron-right"></i>
+        </div>
+        <div id="instagramDetail" class="card-detail">
+            <p><strong>Título:</strong> Instagram</p>
+            <p><strong>Descripción:</strong> Permite descargar videos/imágenes mediante enlace de Instagram.</p>
+            <p><strong>Ejemplo:</strong> </p>
+            <!-- Cuadro adicional -->
+            <div class="additional-info">
+            </div>
+        </div>
+
+        <div class="card" onclick="toggleDetails('likeeDetail')">
+            <span><i class="fas fa-download"></i> Likee</span>
+            <i class="fas fa-chevron-right"></i>
+        </div>
+        <div id="likeeDetail" class="card-detail">
+            <p><strong>Titulo:</strong> Likee</p>
+            <p><strong>Descripción:</strong> Permite descargar videos mediante enlace de Likee</p>
+            <p><strong>Ejemplo:</strong> </p>
+            <!-- Cuadro adicional -->
+            <div class="additional-info">
+                <p>#likee <strong>enlace</strong></p>
+            </div>
+        </div>
+
+        <div class="card" onclick="toggleDetails('mediaFireDetail')">
+            <span><i class="fas fa-download"></i> MediaFire</span>
+            <i class="fas fa-chevron-right"></i>
+        </div>
+        <div id="mediaFireDetail" class="card-detail">
+            <p><strong>Título:</strong> MediaFire</p>
+            <p><strong>Descripción:</strong> Descarga todo tipo de archivos mediante enlace de MediaFire.</p>
+            <p><strong>Ejemplo:</strong> </p>
+            <!-- Cuadro adicional -->
+            <div class="additional-info">
+                <p>#mediafire <strong>enlace</strong></p>
+            </div>
+        </div>
+        <div class="card" onclick="toggleDetails('apkDetail')">
+            <span><i class="fas fa-download"></i> Aptoide</span>
+            <i class="fas fa-chevron-right"></i>
+        </div>
+        <div id="apkDetail" class="card-detail">
+            <p><strong>Título:</strong> Aptoide</p>
+            <p><strong>Descripción:</strong> Permite descargar aplicaciones mediante enlace o texto de Aptoide.</p>
+            <p><strong>Ejemplo:</strong> </p>
+            <!-- Cuadro adicional -->
+            <div class="additional-info">
+                <p>#apk <strong>texto</strong></p>
+            </div>
+        </div>
+
+        <div class="card" onclick="toggleDetails('pinterestDetail')">
+            <span><i class="fas fa-download"></i> Pinterest</span>
+            <i class="fas fa-chevron-right"></i>
+        </div>
+        <div id="pinterestDetail" class="card-detail">
+            <p><strong>Título:</strong> Pinterest</p>
+            <p><strong>Descripción:</strong> Permite descargar imágenes/videos mediante enlace de Pinterest.</p>
+            <p><strong>Ejemplo:</strong> </p>
+            <!-- Cuadro adicional -->
+            <div class="additional-info">
+                <p>#pinterestdl <strong>enlace</strong></p>
+            </div>
+        </div>
+
+        <div class="card" onclick="toggleDetails('playDetail')">
+            <span><i class="fas fa-download"></i> Play</span>
+            <i class="fas fa-chevron-right"></i>
+        </div>
+        <div id="playDetail" class="card-detail">
+            <p><strong>Titulo:</strong> Play</p>
+            <p><strong>Descripción:</strong> Permite hacer búsquedas mediante texto en la plataforma de Youtube</p>
+            <p><strong>Ejemplo:</strong> </p>
+            <!-- Cuadro adicional -->
+            <div class="additional-info">
+                <p>#play <strong>texto</strong></p>
+            </div>
+        </div>
+
+        <div class="card" onclick="toggleDetails('play2Detail')">
+            <span><i class="fas fa-download"></i> Play2</span>
+            <i class="fas fa-chevron-right"></i>
+        </div>
+        <div id="play2Detail" class="card-detail">
+            <p><strong>Título:</strong> play2</p>
+            <p><strong>Descripción:</strong> Permite hacer búsquedas mediante texto en la plataforma de Applemusic y hací enviando el audio</p>
+            <p><strong>Ejemplo:</strong> </p>
+            <!-- Cuadro adicional -->
+            <div class="additional-info">
+                <p>#play2 <strong>texto</strong></p>
+            </div>
+        </div>
+        <div class="card" onclick="toggleDetails('playstoreDetail')">
+            <span><i class="fas fa-download"></i> PlayStore</span>
+            <i class="fas fa-chevron-right"></i>
+        </div>
+        <div id="playstoreDetail" class="card-detail">
+            <p><strong>Título:</strong> PlayStore</p>
+            <p><strong>Descripción:</strong> Permite descargar aplicaciones mediante enlace de PlayStore </p>
+            <p><strong>Ejemplo:</strong> </p>
+            <!-- Cuadro adicional -->
+            <div class="additional-info">
+                <p>#playstore <strong>enlace</strong></p>
+            </div>
+        </div>
+
+        <div class="card" onclick="toggleDetails('snackvideoDetail')">
+            <span><i class="fas fa-download"></i> Snackvideo</span>
+            <i class="fas fa-chevron-right"></i>
+        </div>
+        <div id="snackvideoDetail" class="card-detail">
+            <p><strong>Título:</strong> snackvideo</p>
+            <p><strong>Descripción:</strong> Permite descargar videos mediante enlace de la plataforma de snackvideo.</p>
+            <p><strong>Ejemplo:</strong> </p>
+            <!-- Cuadro adicional -->
+            <div class="additional-info">
+                <p>#snackvideo <strong>enlace</strong></p>
+            </div>
+        </div>
+    </div>
+</div>
+    <footer>
+        © 2025 Made With ❤ By Genesis & Izumi
+    </footer>
+
+    <script>
+        document.getElementById('menuToggle').addEventListener('click', function () {
+            document.getElementById('sidebar').classList.toggle('open');
+        });
+
+        document.getElementById('closeSidebar').addEventListener('click', function () {
+            document.getElementById('sidebar').classList.remove('open');
+        });
+
+        document.getElementById('toggleDropdown').addEventListener('click', function () {
+            const content = document.getElementById('dropdownContent');
+            const icon = this.querySelector("i");
+            content.style.display = content.style.display === "block" ? "none" : "block";
+            icon.style.transform = content.style.display === "block" ? "rotate(180deg)" : "rotate(0deg)";
+        });
+
+        function showCategory(category) {
+            document.querySelectorAll('.category-container').forEach(el => el.style.display = 'none');
+            document.getElementById(category).style.display = 'block';
+            document.getElementById('dropdownContent').style.display = 'none';
+            document.getElementById('toggleDropdown').innerHTML = category.charAt(0).toUpperCase() + category.slice(1) + ' <i class="fas fa-chevron-down"></i>';
+        }
+
+        function toggleDetails(detailId) {
+            const detail = document.getElementById(detailId);
+            detail.style.display = detail.style.display === "block" ? "none" : "block";
+        }
+    </script>
+
+</body>
+</html>
